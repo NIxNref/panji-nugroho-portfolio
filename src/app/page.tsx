@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation';
 import Projects from '@/components/Projects';
 import Hero from '@/components/Hero';
 import Skills from '@/components/Skills';
+import About from '@/components/About';
 import { prisma } from '@/lib/prisma';
 
 async function getProjects() {
@@ -20,6 +21,7 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col">
       <Navigation />
       <Hero />
+      <About />
       <Skills />
       <Projects projects={projects} />
     </main>

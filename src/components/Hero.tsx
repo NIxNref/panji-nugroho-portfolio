@@ -1,37 +1,94 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export default function Hero() {
     return (
-        <section className="w-full min-h-screen flex items-center justify-center px-4">
-            <div className="max-w-screen-xl mx-auto text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-                        Hi, I'm <span className="text-blue-600 dark:text-blue-500">Your Name</span>
-                    </h1>
-                    <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8">
-                        Full Stack Developer crafting beautiful web experiences
-                    </p>
-                    <div className="flex flex-col md:flex-row gap-4 justify-center">
-                        <a
+        <section className="relative bg-white dark:bg-gray-900 h-screen flex items-center overflow-hidden">
+            {/* Animated background elements */}
+            <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl transform rotate-12 animate-pulse"></div>
+                <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-l from-blue-500/10 to-purple-500/10 rounded-full blur-3xl transform -rotate-12 animate-pulse"></div>
+            </div>
+
+            <div className="max-w-screen-xl mx-auto px-4 py-32 lg:flex lg:h-screen lg:items-center relative z-10">
+                <div className="mx-auto max-w-3xl text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="mb-8"
+                    >
+                        <span className="text-blue-600 dark:text-blue-400 text-sm font-semibold tracking-wider uppercase mb-4 block">
+                            Welcome to my portfolio
+                        </span>
+                        <h1 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-5xl font-extrabold sm:text-6xl mb-4 leading-tight">
+                            Hi, I'm Panji Nugroho
+                            <span className="block mt-2 text-4xl sm:text-5xl">Backend Developer</span>
+                        </h1>
+                    </motion.div>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="mx-auto mt-4 max-w-xl text-xl leading-relaxed text-gray-600 dark:text-gray-300 mb-8"
+                    >
+                        I build robust and scalable backend solutions with modern technologies.
+                    </motion.p>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                        className="flex flex-wrap justify-center gap-4"
+                    >
+                        <Link
                             href="#projects"
-                            className="inline-flex items-center px-6 py-3 text-base font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+                            className="group relative inline-flex items-center overflow-hidden rounded-full bg-blue-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-blue-600"
                         >
-                            View My Work
-                        </a>
-                        <a
-                            href="#contact"
-                            className="inline-flex items-center px-6 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-                        >
-                            Get in Touch
-                        </a>
-                    </div>
-                </motion.div>
+                            <span className="absolute -end-full transition-all group-hover:end-4">
+                                <svg
+                                    className="h-5 w-5 rtl:rotate-180"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                    />
+                                </svg>
+                            </span>
+                            <span className="text-sm font-medium transition-all group-hover:me-4">
+                                View Projects
+                            </span>
+                        </Link>
+                    </motion.div>
+                </div>
+            </div>
+
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                <Link href="#projects" className="group flex flex-col items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    <span className="text-sm mb-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all">
+                        Scroll Down
+                    </span>
+                    <svg
+                        className="w-6 h-6 animate-bounce"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </Link>
             </div>
         </section>
     );
