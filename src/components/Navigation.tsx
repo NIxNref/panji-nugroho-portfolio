@@ -8,15 +8,39 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 const Navigation = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
         };
 
+        // Check initial scroll position
+        handleScroll();
+
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        e.preventDefault();
+        setIsOpen(false);
+
+        if (href === '/') {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        } else {
+            const element = document.querySelector(href);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+    };
 
     const navigation = [
         { name: 'Home', href: '/' },
@@ -25,16 +49,27 @@ const Navigation = () => {
         { name: 'Projects', href: '#projects' },
     ];
 
+    // Don't render until mounted to avoid hydration mismatch
+    if (!mounted) {
+        return null;
+    }
+
+    const textColorClass = scrolled || !mounted
+        ? 'text-gray-900 dark:text-white'
+        : 'text-gray-900 dark:text-white';
+
     return (
-        <nav className={`fixed w-full z-50 top-0 left-0 transition-all duration-300 ${scrolled ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
-            }`}>
+        <nav className={`fixed w-full z-50 top-0 left-0 transition-all duration-300 ${scrolled ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <Link href="/" className="flex items-center">
+                <Link
+                    href="/"
+                    onClick={(e) => handleNavClick(e, '/')}
+                    className="flex items-center z-20"
+                >
                     <motion.span
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className={`self-center text-2xl font-semibold whitespace-nowrap transition-colors duration-300 ${scrolled ? 'text-gray-900 dark:text-white' : 'text-white'
-                            }`}
+                        className={`self-center text-xl sm:text-2xl font-semibold whitespace-nowrap ${textColorClass}`}
                     >
                         Panji Nugroho
                     </motion.span>
@@ -43,10 +78,7 @@ const Navigation = () => {
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     type="button"
-                    className={`inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden transition-colors duration-300 ${scrolled
-                        ? 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700'
-                        : 'text-white hover:bg-white/10'
-                        }`}
+                    className={`inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden z-20 ${textColorClass} hover:bg-gray-100 dark:hover:bg-gray-700`}
                 >
                     <span className="sr-only">Open main menu</span>
                     {isOpen ? (
@@ -61,12 +93,9 @@ const Navigation = () => {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className={`${isOpen ? 'block' : 'hidden'} w-full md:block md:w-auto`}
+                        className={`${isOpen ? 'block' : 'hidden'} w-full md:block md:w-auto fixed md:relative left-0 right-0 top-[64px] md:top-auto bg-white/95 dark:bg-gray-900/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none shadow-lg md:shadow-none border-t border-gray-100 dark:border-gray-700 md:border-none z-10`}
                     >
-                        <ul className={`flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0 md:border-0 transition-colors duration-300 ${scrolled
-                            ? 'bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-lg md:bg-transparent'
-                            : 'bg-transparent'
-                            }`}>
+                        <ul className="flex flex-col p-4 md:p-0 mt-0 md:flex-row md:space-x-8 md:mt-0">
                             {navigation.map((item) => (
                                 <motion.li
                                     key={item.name}
@@ -76,11 +105,8 @@ const Navigation = () => {
                                 >
                                     <Link
                                         href={item.href}
-                                        className={`block py-2 pl-3 pr-4 rounded transition-colors duration-300 ${scrolled
-                                            ? 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent'
-                                            : 'text-gray-100 hover:bg-white/10 md:hover:bg-transparent md:hover:text-blue-400'
-                                            }`}
-                                        onClick={() => setIsOpen(false)}
+                                        onClick={(e) => handleNavClick(e, item.href)}
+                                        className={`block py-3 px-4 text-base rounded-lg transition-colors duration-300 ${textColorClass} hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:hover:bg-gray-700/50 md:dark:hover:bg-transparent`}
                                     >
                                         {item.name}
                                     </Link>
