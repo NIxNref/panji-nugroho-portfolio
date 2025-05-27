@@ -4,6 +4,25 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import { compare } from "bcryptjs";
+import { JWT } from "next-auth/jwt";
+import { Session } from "next-auth";
+
+declare module "next-auth" {
+    interface Session {
+        user: {
+            id: string;
+            name?: string | null;
+            email?: string | null;
+            image?: string | null;
+        }
+    }
+}
+
+declare module "next-auth/jwt" {
+    interface JWT {
+        id: string;
+    }
+}
 
 export async function hashPassword(password: string): Promise<string> {
     return hash(password, 12)
@@ -65,7 +84,7 @@ export const authOptions: NextAuthOptions = {
         },
         async session({ session, token }) {
             if (session.user) {
-                session.user.id = token.id as string;
+                session.user.id = token.id;
             }
             return session;
         }
