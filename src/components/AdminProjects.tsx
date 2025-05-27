@@ -9,8 +9,8 @@ type Project = {
     title: string;
     description: string;
     imageUrl: string;
-    liveUrl?: string;
-    githubUrl?: string;
+    liveUrl: string | null;
+    githubUrl: string | null;
     tags: string;
 };
 
