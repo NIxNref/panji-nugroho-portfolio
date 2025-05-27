@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
             await writeFile(path.join(uploadDir, filename), buffer);
         } catch (error) {
             // If directory doesn't exist, create it and try again
+            console.warn('Failed to write to uploads directory, attempting to write directly:', error);
             await writeFile(path.join(process.cwd(), 'public/uploads', filename), buffer);
         }
 
