@@ -80,7 +80,7 @@ export default function About() {
                         className="space-y-6"
                     >
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                            Hi, I'm Panji Nugroho
+                            Hi, I&apos;m Panji Nugroho
                         </h3>
                         <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                             I am a passionate Backend Developer with expertise in web development

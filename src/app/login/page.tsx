@@ -27,6 +27,7 @@ export default function LoginPage() {
             router.push('/admin');
             router.refresh();
         } catch (error) {
+            console.error('Login error:', error);
             setError('An error occurred during login');
         }
     };

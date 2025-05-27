@@ -34,7 +34,7 @@ export default function Hero() {
                             transition={{ duration: 0.5, delay: 0.3 }}
                             className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight"
                         >
-                            Hi, I'm Panji Nugroho
+                            Hi, I&apos;m Panji Nugroho
                             <span className="block mt-2 text-3xl sm:text-4xl lg:text-5xl">Backend Developer</span>
                         </motion.h1>
                     </motion.div>
