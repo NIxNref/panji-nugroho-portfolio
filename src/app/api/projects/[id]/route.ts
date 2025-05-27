@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export async function GET(
-    request: NextRequest,
-    { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest) {
+    const id = request.nextUrl.pathname.split('/').pop();
+
     try {
         const project = await prisma.project.findUnique({
             where: {
-                id: params.id,
+                id,
             },
         });
 
@@ -29,15 +28,14 @@ export async function GET(
     }
 }
 
-export async function PUT(
-    request: NextRequest,
-    { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest) {
+    const id = request.nextUrl.pathname.split('/').pop();
+
     try {
         const json = await request.json();
         const project = await prisma.project.update({
             where: {
-                id: params.id,
+                id,
             },
             data: json,
         });
@@ -51,14 +49,13 @@ export async function PUT(
     }
 }
 
-export async function DELETE(
-    request: NextRequest,
-    { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest) {
+    const id = request.nextUrl.pathname.split('/').pop();
+
     try {
         await prisma.project.delete({
             where: {
-                id: params.id,
+                id,
             },
         });
         return NextResponse.json({ message: 'Project deleted successfully' });
@@ -69,4 +66,4 @@ export async function DELETE(
             { status: 500 }
         );
     }
-} 
+}
