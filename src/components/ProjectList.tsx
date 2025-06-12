@@ -30,12 +30,14 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
                     className="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden group transform transition-all duration-300 hover:shadow-2xl"
                 >
                     <div className="relative h-48 overflow-hidden">
-                        <Image
-                            src={project.imageUrl}
-                            alt={project.title}
-                            fill
-                            className="object-cover transform transition-transform duration-500 group-hover:scale-110"
-                        />
+                        {project.imageUrl && (
+                            <Image
+                                src={project.imageUrl}
+                                alt={project.title}
+                                fill
+                                className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                            />
+                        )}
                         <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                     </div>
                     <div className="p-6">
