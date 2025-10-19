@@ -1,10 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+async function ensureDb() {
+    if (!process.env.DATABASE_URL) {
+        throw new Error('Missing DATABASE_URL environment variable');
+    }
+
+    try {
+        await prisma.$connect();
+    } catch (err) {
+        throw new Error(`Database connection failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+}
+
 export async function GET(request: NextRequest) {
     const id = request.nextUrl.pathname.split('/').pop();
 
     try {
+        await ensureDb();
         const project = await prisma.project.findUnique({
             where: {
                 id,
@@ -32,6 +45,7 @@ export async function PUT(request: NextRequest) {
     const id = request.nextUrl.pathname.split('/').pop();
 
     try {
+        await ensureDb();
         const json = await request.json();
         const project = await prisma.project.update({
             where: {
@@ -53,6 +67,7 @@ export async function DELETE(request: NextRequest) {
     const id = request.nextUrl.pathname.split('/').pop();
 
     try {
+        await ensureDb();
         await prisma.project.delete({
             where: {
                 id,

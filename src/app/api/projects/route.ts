@@ -1,8 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+async function ensureDb() {
+    if (!process.env.DATABASE_URL) {
+        throw new Error('Missing DATABASE_URL environment variable');
+    }
+
+    // Attempt a short connect to surface connection errors early
+    try {
+        await prisma.$connect();
+    } catch (err) {
+        // Wrap error with a helpful message
+        throw new Error(`Database connection failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+}
+
 export async function GET() {
     try {
+        await ensureDb();
+
         const projects = await prisma.project.findMany({
             orderBy: {
                 createdAt: 'desc',
@@ -20,6 +36,8 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
     try {
+        await ensureDb();
+
         const json = await request.json();
 
         // Validate required fields
@@ -66,4 +84,4 @@ export async function POST(request: NextRequest) {
             { status: 500 }
         );
     }
-} 
+}
