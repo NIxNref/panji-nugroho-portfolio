@@ -1,10 +1,18 @@
-// Use a runtime require to avoid TypeScript resolution issues in some editors
-// while keeping the same runtime behavior.
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { PrismaClient } = require('@prisma/client');
+/// <reference types="node" />
+
+import { PrismaClient } from '@prisma/client';
+
+// Provide a narrow local declaration for `process.env` so this file can reference
+// environment variables safely across different TypeScript setups.
+declare const process: {
+    env: {
+        NODE_ENV?: 'development' | 'production' | string;
+        [key: string]: string | undefined;
+    };
+};
 
 const globalForPrisma = globalThis as unknown as {
-    prisma: any | undefined;
+    prisma?: PrismaClient;
 };
 
 // When using serverless platforms (like Vercel) with NeonDB, it's recommended
@@ -13,4 +21,4 @@ const globalForPrisma = globalThis as unknown as {
 // warm invocations to avoid exhausting database connections.
 export const prisma = globalForPrisma.prisma ?? new PrismaClient();
 
-if ((process as any)?.env?.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+if ((process as NodeJS.Process).env?.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
