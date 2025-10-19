@@ -6,6 +6,12 @@ generator client {
 }
 
 datasource db {
+  // Using PostgreSQL (NeonDB is Postgres-compatible).
+  // When deploying to Neon on Vercel, set your project's `DATABASE_URL`
+  // to the Neon connection string and include these recommended query params:
+  //   sslmode=require&pgbouncer=true
+  // Example DATABASE_URL (do NOT commit secrets):
+  // postgresql://<user>:<password>@<host>:<port>/<database>?sslmode=require&pgbouncer=true
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
